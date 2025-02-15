@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-api_key = st.secrets["api_key"]
+# api_key = st.secrets["api_key"]
+api_key="3b7461f8af980b1add2f8526b419b13b"
 
 st.write(f"API Key: {api_key}")
 
