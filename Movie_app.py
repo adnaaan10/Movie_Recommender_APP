@@ -18,31 +18,36 @@ st.set_option('client.showErrorDetails', False)
 DEFAULT_POSTER = "https://img.freepik.com/free-vector/cinema-realistic-poster-with-illuminated-bucket-popcorn-drink-3d-glasses-reel-tickets-blue-background-with-tapes-vector-illustration_1284-77070.jpg"
 
 
-
-# Cache the poster fetching function
 @st.cache
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}"
+    st.write(f"Fetching URL: {url}")  # Debugging line
 
     try:
-        # Use a session to make the request
         with requests.Session() as session:
             response = session.get(url)
-            response.raise_for_status()  # Raises an error for HTTP errors
-            data = response.json()
+            st.write(f"Status Code: {response.status_code}")  # Debugging line
 
-            # Check if 'poster_path' exists and return the poster URL
-            if data and 'poster_path' in data and data['poster_path']:
-                poster_path = data['poster_path']
-                full_path = f"https://image.tmdb.org/t/p/w500{poster_path}"
-                return full_path
+            if response.status_code == 200:
+                data = response.json()
+                st.write(f"API Response: {data}")  # Debugging line
+
+                if 'poster_path' in data and data['poster_path']:
+                    poster_path = data['poster_path']
+                    return f"https://image.tmdb.org/t/p/w500{poster_path}"
+                else:
+                    st.write("poster_path not found in API response!")
+                    return DEFAULT_POSTER
             else:
-                # Return default placeholder if no poster is available
-                return DEFAULT_POSTER
-
+                st.write("Failed to fetch data!")
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
-        return DEFAULT_POSTER  # Return default poster in case of an error
+        st.write(f"Error: {e}")
+
+    return DEFAULT_POSTER
+
+
+
+
 
 
 # Recommend movies based on a selected movie
