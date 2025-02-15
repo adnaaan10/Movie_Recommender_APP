@@ -64,8 +64,8 @@ def recommend(movie):
 st.header('Movie Recommendation System')
 
 # Load the movies and similarity data
-movies = pickle.load(open('resources/movie_list.pkl', 'rb'))
-similarity = pickle.load(open('resources/similarity.pkl', 'rb'))
+movies = pickle.load(open('Resources/movie_list.pkl', 'rb'))
+similarity = pickle.load(open('Resources/similarity.pkl', 'rb'))
 
 # Movie list dropdown with a unique key to avoid duplicate widget ID
 movie_list = movies['title'].values
