@@ -17,25 +17,25 @@ st.set_option('client.showErrorDetails', False)
 DEFAULT_POSTER = "https://img.freepik.com/free-vector/cinema-realistic-poster-with-illuminated-bucket-popcorn-drink-3d-glasses-reel-tickets-blue-background-with-tapes-vector-illustration_1284-77070.jpg"
 
 
-# Cache the poster fetching function
-@st.cache
+@st.cache_data  # Use the new caching method
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}"
 
     try:
-        # Use a session to make the request
         with requests.Session() as session:
             response = session.get(url)
-            response.raise_for_status()  # Raises an error for HTTP errors
+            print(f"API Status Code: {response.status_code}")  # Debugging
+            print(f"API Response: {response.json()}")  # Debugging
+
+            response.raise_for_status()
             data = response.json()
 
-            # Check if 'poster_path' exists and return the poster URL
             if data and 'poster_path' in data and data['poster_path']:
                 poster_path = data['poster_path']
                 full_path = f"https://image.tmdb.org/t/p/w500{poster_path}"
                 return full_path
             else:
-                # Return default placeholder if no poster is available
+                print("Poster path not found, using default image.")  # Debugging
                 return DEFAULT_POSTER
 
     except requests.exceptions.RequestException as e:
