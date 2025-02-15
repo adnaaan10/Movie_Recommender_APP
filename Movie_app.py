@@ -64,6 +64,10 @@ def recommend(movie):
 st.header('Movie Recommendation System')
 
 # Load the movies and similarity data
+
+print("Current working directory:", os.getcwd())  # Check the working directory
+print("Contents of Resources folder:", os.listdir("Resources"))  # List files in Resources
+
 movies = pickle.load(open('Resources/movie_list.pkl', 'rb'))
 similarity = pickle.load(open('Resources/similarity.pkl', 'rb'))
 
