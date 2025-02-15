@@ -8,6 +8,7 @@ load_dotenv()
 
 api_key = st.secrets["api_key"]
 
+st.write(f"API Key: {api_key}")
 
 
 
